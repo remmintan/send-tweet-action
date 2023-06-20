@@ -1,4 +1,4 @@
-name: 'Create Tweet'
+name: 'Post Tweet on Twitter'
 descriotion: 'Simple JS action to post a tweet / tweets thread'
 branding:
   color: 'blue'
