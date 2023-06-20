@@ -10545,27 +10545,31 @@ var external_process_default = /*#__PURE__*/__nccwpck_require__.n(external_proce
 
 
 async function main() {
-    const consumerKey = core.getInput('consumer key', { required: true })
-    const consumerSecret = core.getInput('consumer key secret', { required: true })
+    const apiKey = core.getInput('api key', { required: true })
+    const apiSecret = core.getInput('api key secret', { required: true })
     const accessToken = core.getInput('access token', { required: true })
     const accessTokenSecret = core.getInput('access token secret', { required: true })
+    const tweetText = core.getInput('tweet text', { required: true })
 
     const client = new cjs.TwitterApi({
-        appKey: consumerKey,
-        appSecret: consumerSecret,
+        appKey: apiKey,
+        appSecret: apiSecret,
         accessToken,
         accessSecret: accessTokenSecret
     })
     try {
-        const tweet = await client.v1.tweet('Test');
-        core.info('tweet: ' + tweet)
+        const tweet = await client.v2.tweetThread(tweetText.split('===next-tweet==='));
+        core.info('tweet: ' + JSON.stringify(tweet))
     } catch (error) {
+        console.log(error)
         core.setFailed(error)
+        
     }
 }
 
 main().catch((error) => {
-    core.setFailed(error.message)
+    console.log(error)
+    core.setFailed(error)
     external_process_default().exit(1)
 });
 
