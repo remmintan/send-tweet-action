@@ -10545,11 +10545,11 @@ var external_process_default = /*#__PURE__*/__nccwpck_require__.n(external_proce
 
 
 async function main() {
-    const apiKey = core.getInput('api key', { required: true })
-    const apiSecret = core.getInput('api key secret', { required: true })
-    const accessToken = core.getInput('access token', { required: true })
-    const accessTokenSecret = core.getInput('access token secret', { required: true })
-    const tweetText = core.getInput('tweet text', { required: true })
+    const apiKey = core.getInput('api-key', { required: true })
+    const apiSecret = core.getInput('api-key-secret', { required: true })
+    const accessToken = core.getInput('access-token', { required: true })
+    const accessTokenSecret = core.getInput('access-token-secret', { required: true })
+    const tweetText = core.getInput('tweet-text', { required: true })
 
     const client = new cjs.TwitterApi({
         appKey: apiKey,
@@ -10558,7 +10558,7 @@ async function main() {
         accessSecret: accessTokenSecret
     })
     try {
-        const tweet = await client.v2.tweetThread(tweetText.split('===next-tweet==='));
+        const tweet = await client.v2.tweetThread(tweetText.replace(/\\n/g, '\n').split('===next-tweet==='));
         core.info('tweet: ' + JSON.stringify(tweet))
     } catch (error) {
         console.log(error)
