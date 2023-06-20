@@ -1,0 +1,24 @@
+name: 'Create Tweet'
+descriotion: 'Simple JS action to post a tweet / tweets thread'
+branding:
+  color: 'blue'
+  icon: 'twitter'
+inputs:
+  api-key: 
+    description: 'Twitter API key (aka Consumer key) for your twitter app. Get it from https://developer.twitter.com/en/portal/dashboard'
+    required: true
+  api-key-secret:
+    description: 'Twitter API key secret (aka Consumer secret) for your twitter app. Get it from https://developer.twitter.com/en/portal/dashboard'
+    required: true
+  access-token:
+    description: 'Twitter access token for your twitter app. Get it from https://developer.twitter.com/en/portal/dashboard'
+    required: true
+  access-token-secret:
+    description: 'Twitter access token secret for your twitter app. Get it from https://developer.twitter.com/en/portal/dashboard'
+    required: true
+  tweet-text:
+    description: 'Text of the tweet with new line characters. If you want to create a thread, separate tweets with ""===next-tweet==="'
+    required: true
+runs:
+  using: 'node18'
+  main: 'dist/index.js'
