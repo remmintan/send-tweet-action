@@ -10558,7 +10558,8 @@ async function main() {
         accessSecret: accessTokenSecret
     })
     try {
-        const tweet = await client.v2.tweetThread(tweetText.replace(/\\n/g, '\n').split('===next-tweet==='));
+        const unescapedtweet = tweetText.replace(/\\n/g, '\n').replace(/\\/g, '').split('===next-tweet===')
+        const tweet = await client.v2.tweetThread(unescapedtweet);
         core.info('tweet: ' + JSON.stringify(tweet))
     } catch (error) {
         console.log(error)
