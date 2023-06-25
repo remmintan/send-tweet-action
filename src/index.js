@@ -3,6 +3,27 @@ import * as actions from '@actions/core'
 import { TwitterApi } from 'twitter-api-v2'
 import process from 'process'
 
+function splitIntoTweets(string, delimiter = ' ', maxLength = 280) {
+    const words = string.split(delimiter);
+    const tweets = [];
+    let currentTweet = '';
+  
+    for (let i = 0; i < words.length; i++) {
+      if (currentTweet.length + words[i].length + delimiter.length <= maxLength) {
+        currentTweet += words[i] + delimiter;
+      } else {
+        tweets.push(currentTweet.trim());
+        currentTweet = words[i] + delimiter;
+      }
+    }
+  
+    if (currentTweet !== '') {
+      tweets.push(currentTweet.trim());
+    }
+  
+    return tweets;
+  }
+
 async function main() {
     const apiKey = actions.getInput('api-key', { required: true })
     const apiSecret = actions.getInput('api-key-secret', { required: true })
@@ -18,7 +39,12 @@ async function main() {
     })
     try {
         const unescapedtweet = tweetText.replace(/\\n/g, '\n').replace(/\\/g, '').split('===next-tweet===')
-        const tweet = await client.v2.tweetThread(unescapedtweet);
+        const tweets = [];
+        unescapedtweet.forEach((text) => {
+            const textTweets = splitIntoTweets(text);
+            tweets.push(...textTweets);
+          });
+        const tweet = await client.v2.tweetThread(tweets);
         actions.info('tweet: ' + JSON.stringify(tweet))
     } catch (error) {
         console.log(error)
